@@ -32,6 +32,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
 
     ArrayList<contestDataSet> localDataSet;
     int[] imagestore ={R.drawable.logo1,R.drawable.logo2,R.drawable.logo3,R.drawable.logo4,R.drawable.logo5,R.drawable.logo6,R.drawable.logo7,R.drawable.logo8,R.drawable.logo9};
+    int[] background ={R.drawable.codechef_background,R.drawable.codeforces_background,R.drawable.hackerrank_background,R.drawable.kickstart_background,R.drawable.atcoder_background,R.drawable.hackerearth_background,R.drawable.leetcode_background,R.drawable.topcoder_background,R.drawable.csacademy_background};
     private static final int FLAG_ACTIVITY_CLEAR_TASK = 32768;
 
     //    Context mContext;
@@ -41,12 +42,12 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
         TextView contestDuration;
         ImageView expand;
         ImageView logo;
-        LinearLayout hidden;
+        RelativeLayout hidden;
         CardView base_card;
         TextView date;
         TextView time;
         TextView link;
-        ImageView show_less;
+        LinearLayout show_less;
         Button set_reminder;
         ImageView timer;
         ImageView background;
@@ -69,6 +70,11 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
             show_less=view.findViewById(R.id.show_less);
             set_reminder=view.findViewById(R.id.set_reminder);
             timer=view.findViewById(R.id.timer);
+            background=view.findViewById(R.id.set_back);
+
+//            contestDuration=view.findViewById(R.id.);
+//            setAlarm=view.findViewById(R.id.setAlarm);
+//            contestStatus=view.findViewById(R.id.contest_status);
         }
     }
 
@@ -110,7 +116,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
             viewHolder.timer.setImageResource(R.drawable.ic_baseline_date_range_24);
         else viewHolder.timer.setImageResource(R.drawable.ic_baseline_timer_24);
         viewHolder.time.setText(localDataSet.get(position).end);
-//        viewHolder.background.setImageResource(background[localDataSet.get(position).imgval]);
+        viewHolder.background.setImageResource(background[localDataSet.get(position).imgval]);
         viewHolder.link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
