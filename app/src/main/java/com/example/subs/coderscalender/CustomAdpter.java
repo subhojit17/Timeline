@@ -2,7 +2,9 @@ package com.example.subs.coderscalender;
 
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -51,8 +53,6 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
         Button set_reminder;
         ImageView timer;
         ImageView background;
-
-
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
@@ -71,7 +71,6 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
             set_reminder=view.findViewById(R.id.set_reminder);
             timer=view.findViewById(R.id.timer);
             background=view.findViewById(R.id.set_back);
-
 //            contestDuration=view.findViewById(R.id.);
 //            setAlarm=view.findViewById(R.id.setAlarm);
 //            contestStatus=view.findViewById(R.id.contest_status);
@@ -93,6 +92,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.recycleelement, viewGroup, false);
+
         return new ViewHolder(view);
     }
     @Override
@@ -133,6 +133,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
                             new AutoTransition());
                 viewHolder.hidden.setVisibility(View.VISIBLE);
                 viewHolder.expand.setVisibility(View.GONE);
+
 //                    arrow.setImageResource(R.drawable.ic_baseline_expand_more_24);
 
             }
@@ -152,18 +153,47 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
             public void onClick(View view) {
                 Log.d("reminder", "onClick: clicked set reminder");
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(localDataSet.get(position).startTime);
-                Intent intent =new Intent(Intent.ACTION_EDIT);
-                long diff=localDataSet.get(position).endTime.getTime()-localDataSet.get(position).startTime.getTime();
-                intent.setType("vnd.android.cursor.item/event");
-                intent.putExtra("beginTime", cal.getTimeInMillis());
-                intent.putExtra("allDay", false);
+
+                if(cal.getTimeInMillis()-localDataSet.get(position).startTime.getTime()>=0) {
+                    Log.d("reminder", "onClick: contest started");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle(R.string.alert_title)
+                            .setMessage(R.string.alert_message)
+                            .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Uri webpage = Uri.parse(localDataSet.get(position).url);
+                                    Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                                    view.getContext().startActivity(webIntent);
+                                }
+                            })
+                            .setNegativeButton(R.string.negative_button, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+
+                    builder.show();
+
+
+                }
+                else {
+                    Log.d("reminder", "onClick: yet to start");
+
+                    cal.setTime(localDataSet.get(position).startTime);
+                    Intent intent = new Intent(Intent.ACTION_EDIT);
+                    long diff = localDataSet.get(position).endTime.getTime() - localDataSet.get(position).startTime.getTime();
+                    intent.setType("vnd.android.cursor.item/event");
+                    intent.putExtra("beginTime", cal.getTimeInMillis());
+                    intent.putExtra("allDay", false);
 //                intent.putExtra("rrule", "");
-                intent.putExtra("endTime", cal.getTimeInMillis()+diff);
-                intent.putExtra("title", localDataSet.get(position).contestName);
-                view.getContext().startActivity(intent);
-                viewHolder.hidden.setVisibility(View.GONE);
-                viewHolder.expand.setVisibility(View.VISIBLE);
+                    intent.putExtra("endTime", cal.getTimeInMillis() + diff);
+                    intent.putExtra("title", localDataSet.get(position).contestName);
+                    view.getContext().startActivity(intent);
+                    viewHolder.hidden.setVisibility(View.GONE);
+                    viewHolder.expand.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
