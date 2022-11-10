@@ -27,25 +27,29 @@ public class ongoingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        Log.d("create", "onCreateView: fragment created ongoing");
+//        Log.d("create", "onCreateView: fragment created ongoing");
+
+        // INFLATE THE LAYOUT FOR THIS FRAGMENT
         View view= inflater.inflate(R.layout.fragment_ongoing, container, false);
         MainActivity2 activity = (MainActivity2)getActivity();
+        //GET THE DATASET FROM THE MAIN ACTIVITY2
         contests= activity.upcoming(1);
+
+        //SWIPE TO REFRESH LAYOUT
         swipeRefreshLayout=view.findViewById(R.id.ongoingRefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.d("ongoing", "onRefresh: refreshed");
+//                Log.d("ongoing", "onRefresh: refreshed");
                 swipeRefreshLayout.setRefreshing(false);
                 activity.Internet_connection();
             }
         });
-        Log.d("create", "onCreateView: ongoing contest size "+contests.size());
+//        Log.d("create", "onCreateView: ongoing contest size "+contests.size());
         ongoingRecyclerView=view.findViewById(R.id.ongoingRecyclerview);
         ongoingRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         CustomAdpter lad=new CustomAdpter(contests);
-        Log.d("create", "onCreateView: ongoing adapter set");
+//        Log.d("create", "onCreateView: ongoing adapter set");
         ongoingRecyclerView.setAdapter(lad);
 
 

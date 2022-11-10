@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
+//THIS IS USED AS A CUSTOM DATA TYPE
 public class contestDataSet {
     String contestName;
     String url;
@@ -24,10 +25,12 @@ public class contestDataSet {
     String[] month= new String[]{"Jan", "Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     boolean logo_val=false;
 
+    //DATA FETCHED AND SENT HERE TO BE STORED HERE ACCORDING TO THE DESIRED WAY OF CUSTOM VARIABLE
     contestDataSet(String name, String ur, String site, String stime, String etime, String dur,String stat) {
         contestName = name;
         url = ur;
         siteName = site;
+        // SITE IS USED TO GET THE IMAGE TO BE SET USING THEIR VALUE
         switch (site) {
             case "CodeChef": {
                 imgval = 0;
@@ -71,7 +74,8 @@ public class contestDataSet {
             }
 
         }
-        Log.d("time", "contestDataSet: start time before is "+stime);
+//        Log.d("time", "contestDataSet: start time before is "+stime);
+        //parseDate FUNCTION IS USED TO PARSE THE ZULU DATA TO DESIRED FORMAT
         Date dt=parseDate(stime);
         Date dte=parseDate(etime);
         startTime=dt;
@@ -92,6 +96,7 @@ public class contestDataSet {
         Duration = calcDuration(dur) ;
     }
 
+    //USED TO PARSE DATE TO A FORMAT
     public static Date parseDate(String strDate) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -113,6 +118,7 @@ public class contestDataSet {
             }
         }
     }
+    //SET THE STATUS OF THE THE CONTEST
     public String check_status(String str,Date startDate){
 
         String status="";
@@ -127,6 +133,8 @@ public class contestDataSet {
         }
     return status;
     }
+
+    //CALCULATE THE DURATION OF THE CONTEST AND TIME REMAINING TO START THE CONTEST IN A STRING FORMAT
     private String calcDuration(String dur)
     {
         float sec=Float.parseFloat(dur);
@@ -164,8 +172,9 @@ public class contestDataSet {
         }
         return str;
     }
+
     public boolean time_set(String str1, String str2){
-        Log.d("year", "time_set: sub string year is "+str1.substring(6,9));
+//        Log.d("year", "time_set: sub string year is "+str1.substring(6,9));
         if(str1.substring(6,10).equals(str2.substring(6,10))){
             if(str1.substring(3,5).equals(str2.substring(3,5))){
                 if(str1.substring(0,2).equals(str2.substring(0,2)))

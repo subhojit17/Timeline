@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity2.class);
                 //Intent is used to switch from one activity to another.
 
-                startActivity(i);
                 //invoke the SecondActivity.
+                startActivity(i);
 
                 finish();
                 //the current activity will get finished.

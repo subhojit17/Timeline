@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class FragmentpagerAdapter extends FragmentStateAdapter {
 
+    // A FRAGMENT PAGER ADAPTER IS A ADAPTER LIKE A RECYCLERVIEW ADAPTER USED TO SET THE VIEW OF THE FRAGMENT
 
     public FragmentpagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);

@@ -17,7 +17,6 @@ public class modalbottomsheet extends BottomSheetDialogFragment {
             ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.modal_sheet_bottom,
                 container, false);
-
         return v;
     }
 

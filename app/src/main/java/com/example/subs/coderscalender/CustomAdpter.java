@@ -99,7 +99,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") int position) {
 
-        Log.d("custom", "onBindViewHolder: contest name is  " +localDataSet.get(position).contestName+"size is "+localDataSet.get(position).contestName.length());
+//        Log.d("custom", "onBindViewHolder: contest name is  " +localDataSet.get(position).contestName+"size is "+localDataSet.get(position).contestName.length());
         if(localDataSet.get(position).contestName.length()<=1){
             Log.d("size", "onBindViewHolder: " +localDataSet.get(position).siteName);
             viewHolder.contestName.setText(localDataSet.get(position).siteName);
@@ -107,21 +107,22 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
         else viewHolder.contestName.setText(localDataSet.get(position).contestName);
         viewHolder.contestStatus.setText(localDataSet.get(position).status);
         viewHolder.contestDuration.setText(localDataSet.get(position).Duration);
-//        Log.d("image", "onBindViewHolder: img val is "+localDataSet.get(position).imgval+"for site "+localDataSet.get(position).siteName);
         viewHolder.logo.setImageResource(imagestore[localDataSet.get(position).imgval]);
-
         viewHolder.date.setText(localDataSet.get(position).start);
-        Log.d("custom", "onBindViewHolder: logo val is "+localDataSet.get(position).logo_val+"for contest "+localDataSet.get(position).siteName);
         if(localDataSet.get(position).logo_val)
             viewHolder.timer.setImageResource(R.drawable.ic_baseline_date_range_24);
         else viewHolder.timer.setImageResource(R.drawable.ic_baseline_timer_24);
         viewHolder.time.setText(localDataSet.get(position).end);
         viewHolder.background.setImageResource(background[localDataSet.get(position).imgval]);
+
+        //REDIRECT TO THE WEBSITE ON CLICK THE URL LINK
         viewHolder.link.setOnClickListener(view -> {
             Uri webpage = Uri.parse(localDataSet.get(position).url);
             Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
             view.getContext().startActivity(webIntent);
         });
+
+        //SHOW THE DETAILS : EXPAND
         viewHolder.expand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,6 +136,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
 
             }
         });
+        //HIDES THE DETAILS : COLLAPSE
         viewHolder.show_less.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -145,12 +147,15 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
                 viewHolder.expand.setVisibility(View.VISIBLE);
             }
         });
+
+        //ON CLICK SET REMINDER BUTTON
         viewHolder.set_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("reminder", "onClick: clicked set reminder");
+//                Log.d("reminder", "onClick: clicked set reminder");
                 Calendar cal = Calendar.getInstance();
 
+                //CONTEST HAS ALREADY STARTED
                 if(cal.getTimeInMillis()-localDataSet.get(position).startTime.getTime()>=0) {
                     Log.d("reminder", "onClick: contest started");
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -175,8 +180,12 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
 
 
                 }
+
+                //  CONTEST HAS NOT STARTED YET
                 else {
-                    Log.d("reminder", "onClick: yet to start");
+//                    Log.d("reminder", "onClick: yet to start");
+
+                    // SET A REMINDER HERE
 
                     cal.setTime(localDataSet.get(position).startTime);
                     Intent intent = new Intent(Intent.ACTION_EDIT);
@@ -184,7 +193,6 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
                     intent.setType("vnd.android.cursor.item/event");
                     intent.putExtra("beginTime", cal.getTimeInMillis());
                     intent.putExtra("allDay", false);
-//                intent.putExtra("rrule", "");
                     intent.putExtra("endTime", cal.getTimeInMillis() + diff);
                     intent.putExtra("title", localDataSet.get(position).contestName);
                     view.getContext().startActivity(intent);

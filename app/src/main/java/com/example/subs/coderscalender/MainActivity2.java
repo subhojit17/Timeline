@@ -38,14 +38,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity2 extends AppCompatActivity {
-    RecyclerView recyclerView;
-    ImageView imageView;
-    SwipeRefreshLayout swipeRefreshLayout;
     CoordinatorLayout coordinatorLayout;
     TabLayout tabLayout;
     ViewPager2 viewPager;
     FragmentpagerAdapter fragmentpagerAdapter;
-    ArrayList<contestDataSet> contestList=new ArrayList<>();
     ArrayList<contestDataSet> upcomingcontestlist=new ArrayList<>();
     ArrayList<contestDataSet> ongoingcontestList=new ArrayList<>();
     ArrayList<contestDataSet> todaycontestList=new ArrayList<>();
@@ -53,43 +49,38 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         setContentView(R.layout.activity_main2);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
+        //COORDINATOR LAYOUT IS USED TO SHOW THE SNACKBAR
         coordinatorLayout=findViewById(R.id.coordinator);
-        //Checks if device is connected to internet or not
+
         Log.d("data", "onCreate: fetch data");
 
         viewPager=findViewById(R.id.viewpager);
         tabLayout=findViewById(R.id.tablayout);
+
+        //CHECKS IF DEVICE IS CONNECTED TO INTERNET OR NOT
         Log.d("data", "onCreate: calling internet connection");
         Internet_connection();
-        //Swipe to refresh
-//        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout);
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                swipeRefreshLayout.setRefreshing(false);
-//                Internet_connection();
-//            }
-//        });
 
-//        recyclerView=findViewById(R.id.ongoingRecyclerview);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
+
+
+    // A FUNCTION WHICH CHECKS IF DEVICE IS CONNECTED TO INTERNET OR NOT AND FETCHES DATA OR SHOWS AN ALERT (NOT CONNECTED TO INTERNET)
     public void Internet_connection(){
         if(haveInternet())
         {
-            //Fetches data from api
-            Log.d("data", "onCreate: fetching data");
-            Log.d("size", "Internet_connection: calling fetch data ");
+            //**** FETCHES DATA FROM API
+//            Log.d("data", "onCreate: fetching data");
+//            Log.d("size", "Internet_connection: calling fetch data ");
             fetchData();
 
         }
         else {
-            Log.d("data", "onCreate: no internet");
-//            Toast.makeText(this, "Oops!! Not connected to Internet", Toast.LENGTH_SHORT).show();
+//            Log.d("data", "onCreate: no internet");
+            // IF NOT CONNECTED TO INTERNET SHOWS AN ALERT AND OPTION TO RETRY
             Snackbar snackbar= Snackbar.make(coordinatorLayout,"Oops! Not connected to internet ",Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -100,16 +91,16 @@ public class MainActivity2 extends AppCompatActivity {
         }
 
     }
-//    USED TO FETCH DATA FROM API
+    // A FUNCTION USED TO FETCH DATA FROM API
     private void fetchData() {
 
-            Log.d("size", "Internet_connection: inside fetch data");
+//            Log.d("size", "Internet_connection: inside fetch data");
+        //FETCHES API USING VOLLEY LIBRARY
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, "https://kontests.net/api/v1/all", null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
-//                    ArrayList<contestDataSet> contestList=new ArrayList<>();
                     for(int i=0;i<response.length();i++)
                     {
                         JSONObject obj= response.getJSONObject(i);
@@ -121,7 +112,7 @@ public class MainActivity2 extends AppCompatActivity {
                         String url=obj.getString("url");
                         String status=obj.getString("status");
 
-                        //Store fetched data from API to a array list of custom data type
+                        //STORE FETCHED DATA FROM API TO A ARRAY LIST OF CUSTOM DATA TYPE
                         contestDataSet contest=new contestDataSet(
                                 contestName,
                                 url,
@@ -137,13 +128,11 @@ public class MainActivity2 extends AppCompatActivity {
                         else if(val==2)
                             todaycontestList.add(contest);
                         else upcomingcontestlist.add(contest);
-                        contestList.add(contest);
-
                     }
-                    Log.d("size", "onResponse: size of arraylist after fetching data is "+contestList.size());
-                    Log.d("size", "Internet_connection: size of arraylist when sending to fragment is "+contestList.size());
+//                    Log.d("size", "onResponse: size of arraylist after fetching data is "+contestList.size());
+//                    Log.d("size", "Internet_connection: size of arraylist when sending to fragment is "+contestList.size());
 
-                    // FRAGMENT PAGER ADAPTER IS SET HERE so that fragment view gets created
+                    // ****FRAGMENT PAGER ADAPTER IS SET HERE so that fragment view gets created
                     // only after data is fetched
                     FragmentManager fm=getSupportFragmentManager();
                     fragmentpagerAdapter =new FragmentpagerAdapter(fm,getLifecycle());
@@ -180,18 +169,17 @@ public class MainActivity2 extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //if there is an error in loading data toast is displayed
+                //IF THERE IS AN ERROR IN LOADING DATA TOAST IS DISPLAYED
                 Toast.makeText(MainActivity2.this,"Failed To Load Data Make Sure You are Connected to Internet", Toast.LENGTH_LONG).show();
             }
         });
         queue.add(jsonArrayRequest);
     }
 
-//    checks if connected to internet or not
+    //CHECKS IF CONNECTED TO INTERNET OR NOT
     private boolean haveInternet(){
-        Log.d("data", "Internet and data fetch: check if have internet");
+//        Log.d("data", "Internet and data fetch: check if have internet");
         NetworkInfo info=(NetworkInfo)((ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        Log.d("data", "Internet and data fetch: returning "+ (info != null && info.isConnected()));
         return info != null && info.isConnected();
 
     }
@@ -207,7 +195,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         if(diff<=0)
         {
-            //already started : ongoing list
+            //already started : ONGOING LIST
             return 1;
         }
         else{
@@ -217,21 +205,23 @@ public class MainActivity2 extends AppCompatActivity {
                 {
                     if(start.get(Calendar.DAY_OF_MONTH)==present.get(Calendar.DAY_OF_MONTH))
                     {
-                        // starting today , on the same day : today list
+                        // starting today , on the same day : TODAY LIST
                         return 2;
                     }
                     else return 3;
                 }
                 else return 3;
             }
-            //start in future : upcoming list
+            //start in future : UPCOMING LIST
             else return 3;
 
         }
 
     }
+
+    //A FUNCTION USED TO RETURN THE DATA STORED TO THE FRAGMENTS TO BE USED THERE
     public ArrayList<contestDataSet> upcoming(int val){
-        Log.d("create", "upcoming: sending dataset of size "+contestList.size());
+//        Log.d("create", "upcoming: sending dataset of size "+contestList.size());
         if(val==1)
             return ongoingcontestList;
         else if(val==2)
