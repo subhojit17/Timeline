@@ -65,6 +65,10 @@ public class contestDataSet {
                 imgval=8;
                 break;
             }
+            case "CodeForces::Gym":{
+                imgval=1;
+                break;
+            }
 
         }
         Log.d("time", "contestDataSet: start time before is "+stime);

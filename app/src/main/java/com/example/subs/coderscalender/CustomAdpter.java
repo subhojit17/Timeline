@@ -86,6 +86,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
 
 
     public CustomAdpter(ArrayList<contestDataSet> dataSet) {
+        Log.d("custom", "CustomAdpter: dataset received is of size "+dataSet.size());
         localDataSet = dataSet;
     }
     @Override
@@ -98,32 +99,28 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, @SuppressLint("RecyclerView") int position) {
 
-        Log.d("sitename", "onBindViewHolder: contest name is  " +localDataSet.get(position).contestName+"size is "+localDataSet.get(position).contestName.length());
+        Log.d("custom", "onBindViewHolder: contest name is  " +localDataSet.get(position).contestName+"size is "+localDataSet.get(position).contestName.length());
         if(localDataSet.get(position).contestName.length()<=1){
             Log.d("size", "onBindViewHolder: " +localDataSet.get(position).siteName);
             viewHolder.contestName.setText(localDataSet.get(position).siteName);
         }
         else viewHolder.contestName.setText(localDataSet.get(position).contestName);
-
         viewHolder.contestStatus.setText(localDataSet.get(position).status);
         viewHolder.contestDuration.setText(localDataSet.get(position).Duration);
 //        Log.d("image", "onBindViewHolder: img val is "+localDataSet.get(position).imgval+"for site "+localDataSet.get(position).siteName);
         viewHolder.logo.setImageResource(imagestore[localDataSet.get(position).imgval]);
 
         viewHolder.date.setText(localDataSet.get(position).start);
-        Log.d("logo val", "onBindViewHolder: logo val is "+localDataSet.get(position).logo_val+"for contest "+localDataSet.get(position).siteName);
+        Log.d("custom", "onBindViewHolder: logo val is "+localDataSet.get(position).logo_val+"for contest "+localDataSet.get(position).siteName);
         if(localDataSet.get(position).logo_val)
             viewHolder.timer.setImageResource(R.drawable.ic_baseline_date_range_24);
         else viewHolder.timer.setImageResource(R.drawable.ic_baseline_timer_24);
         viewHolder.time.setText(localDataSet.get(position).end);
         viewHolder.background.setImageResource(background[localDataSet.get(position).imgval]);
-        viewHolder.link.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Uri webpage = Uri.parse(localDataSet.get(position).url);
-                Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-                view.getContext().startActivity(webIntent);
-            }
+        viewHolder.link.setOnClickListener(view -> {
+            Uri webpage = Uri.parse(localDataSet.get(position).url);
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+            view.getContext().startActivity(webIntent);
         });
         viewHolder.expand.setOnClickListener(new View.OnClickListener() {
             @Override
