@@ -17,6 +17,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main2);
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+//        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         //COORDINATOR LAYOUT IS USED TO SHOW THE SNACKBAR
         coordinatorLayout=findViewById(R.id.coordinator);
@@ -63,19 +64,19 @@ public class MainActivity2 extends AppCompatActivity {
 
         //CHECKS IF DEVICE IS CONNECTED TO INTERNET OR NOT
         Log.d("data", "onCreate: calling internet connection");
-        Internet_connection();
+        Internet_connection(0);
 
     }
 
 
     // A FUNCTION WHICH CHECKS IF DEVICE IS CONNECTED TO INTERNET OR NOT AND FETCHES DATA OR SHOWS AN ALERT (NOT CONNECTED TO INTERNET)
-    public void Internet_connection(){
+    public void Internet_connection(int i){
         if(haveInternet())
         {
             //**** FETCHES DATA FROM API
 //            Log.d("data", "onCreate: fetching data");
 //            Log.d("size", "Internet_connection: calling fetch data ");
-            fetchData();
+            fetchData(i);
 
         }
         else {
@@ -84,7 +85,7 @@ public class MainActivity2 extends AppCompatActivity {
             Snackbar snackbar= Snackbar.make(coordinatorLayout,"Oops! Not connected to internet ",Snackbar.LENGTH_INDEFINITE).setAction("Retry", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Internet_connection();
+                    Internet_connection(0);
                 }
             });
             snackbar.show();
@@ -92,7 +93,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
     // A FUNCTION USED TO FETCH DATA FROM API
-    private void fetchData() {
+    private void fetchData(int i) {
 
 //            Log.d("size", "Internet_connection: inside fetch data");
         //FETCHES API USING VOLLEY LIBRARY
@@ -101,6 +102,9 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 try {
+                    ongoingcontestList.clear();
+                    upcomingcontestlist.clear();
+                    todaycontestList.clear();
                     for(int i=0;i<response.length();i++)
                     {
                         JSONObject obj= response.getJSONObject(i);
@@ -134,32 +138,35 @@ public class MainActivity2 extends AppCompatActivity {
 
                     // ****FRAGMENT PAGER ADAPTER IS SET HERE so that fragment view gets created
                     // only after data is fetched
-                    FragmentManager fm=getSupportFragmentManager();
-                    fragmentpagerAdapter =new FragmentpagerAdapter(fm,getLifecycle());
-                    viewPager.setAdapter(fragmentpagerAdapter);
-                    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                        @Override
-                        public void onTabSelected(TabLayout.Tab tab) {
-                            viewPager.setCurrentItem(tab.getPosition());
-                        }
+                        FragmentManager fm = getSupportFragmentManager();
+                        fragmentpagerAdapter = new FragmentpagerAdapter(fm, getLifecycle());
+                        viewPager.setAdapter(fragmentpagerAdapter);
+                        viewPager.setCurrentItem( i);
+                        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                            @Override
+                            public void onTabSelected(TabLayout.Tab tab) {
+                                viewPager.setCurrentItem(tab.getPosition());
+                            }
 
-                        @Override
-                        public void onTabUnselected(TabLayout.Tab tab) {
+                            @Override
+                            public void onTabUnselected(TabLayout.Tab tab) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onTabReselected(TabLayout.Tab tab) {
+                            @Override
+                            public void onTabReselected(TabLayout.Tab tab) {
 
-                        }
-                    });
+                            }
+                        });
 
-                    viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                        @Override
-                        public void onPageSelected(int position) {
-                            tabLayout.selectTab(tabLayout.getTabAt(position));
-                        }
-                    });
+                        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                            @Override
+                            public void onPageSelected(int position) {
+                                tabLayout.selectTab(tabLayout.getTabAt(position));
+                            }
+                        });
+
+
 //
 
                 } catch (JSONException e) {

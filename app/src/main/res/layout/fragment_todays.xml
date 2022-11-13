@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".todaysFragment">
+    tools:context=".todaysFragment"
+    android:id="@+id/todayFrame">
 
     <!-- Update blank fragment layout -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

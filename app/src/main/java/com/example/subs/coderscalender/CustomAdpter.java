@@ -71,9 +71,9 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
             set_reminder=view.findViewById(R.id.set_reminder);
             timer=view.findViewById(R.id.timer);
             background=view.findViewById(R.id.set_back);
-//            contestDuration=view.findViewById(R.id.);
-//            setAlarm=view.findViewById(R.id.setAlarm);
-//            contestStatus=view.findViewById(R.id.contest_status);
+            //contestDuration=view.findViewById(R.id.);
+            //setAlarm=view.findViewById(R.id.setAlarm);
+            //contestStatus=view.findViewById(R.id.contest_status);
         }
     }
 

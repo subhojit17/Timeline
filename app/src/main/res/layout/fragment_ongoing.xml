@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ongoingFragment"
-    android:id="@+id/ongoingfragment">
+    android:id="@+id/ongoingFrame">
 
     <!-- Update blank fragment layout -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
