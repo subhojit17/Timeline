@@ -91,6 +91,7 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        //Inflating the custom layout of the recyclerview here to set its element
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.recycleelement, viewGroup, false);
 
