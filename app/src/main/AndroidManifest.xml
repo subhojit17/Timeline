@@ -12,7 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.CodersCalender">
-        <receiver android:name=".BroadcastNotification"/>
         <activity
             android:name=".MainActivity2"
             android:exported="false"
