@@ -1,5 +1,6 @@
 Timeline
-Timeline is an Android app that displays a list of programming contests from various platforms. It fetches the data from an external API and displays it in a user-friendly way. The app also allows users to set reminders for upcoming contests, ensuring that they don't miss out on their favorite coding competitions.
+Timeline
+is an Android app that displays a list of programming contests from various platforms. It fetches the data from an external API and displays it in a user-friendly way. The app also allows users to set reminders for upcoming contests, ensuring that they don't miss out on their favorite coding competitions.
 
 Features
 
