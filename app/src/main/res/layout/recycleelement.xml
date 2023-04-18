@@ -75,28 +75,32 @@
             </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
+                android:id="@+id/expand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="end">
+                android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/expand"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                         app:tint="@color/white"
                         android:clipToOutline="true" />
             </LinearLayout>
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/hidden_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="25dp"
+                android:orientation="vertical"
                 android:visibility="gone">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="25dp">
                 <LinearLayout
                     android:id="@+id/hid"
                     android:layout_width="wrap_content"
@@ -227,21 +231,6 @@
                         android:textColor="@color/white"
                         app:cornerRadius="13dp" />
 
-                    <LinearLayout
-                        android:id="@+id/show_less"
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="50dp"
-                        android:paddingBottom="5dp">
-
-                        <LinearLayout
-                            android:layout_width="160dp"
-                            android:layout_height="3dp"
-                            android:layout_gravity="bottom"
-                            android:background="@color/white"
-                            android:orientation="horizontal" />
-                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -256,6 +245,21 @@
                     />
 
             </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/show_less"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="2dp"
+                        android:layout_gravity="bottom"
+                        android:background="@color/white"
+                        android:orientation="horizontal" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

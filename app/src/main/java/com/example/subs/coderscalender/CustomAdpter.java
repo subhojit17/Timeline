@@ -42,9 +42,9 @@ public class CustomAdpter extends RecyclerView.Adapter<CustomAdpter.ViewHolder> 
         TextView contestName;
         TextView contestStatus;
         TextView contestDuration;
-        ImageView expand;
+        LinearLayout expand;
         ImageView logo;
-        RelativeLayout hidden;
+        LinearLayout hidden;
         CardView base_card;
         TextView date;
         TextView time;
